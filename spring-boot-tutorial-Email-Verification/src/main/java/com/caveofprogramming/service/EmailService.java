@@ -33,6 +33,12 @@ public class EmailService {
 	
 	public void sendVerificationEmail(String emailAddress){
 		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<HTML>");
+		sb.append("<p>Hello there, this is <strong>HTML</strong></p>");
+		sb.append("</HTML>");
+		
 //		Context context = new Context();
 //		
 //		context.setVariable("name", "Jacek");
@@ -53,7 +59,7 @@ public class EmailService {
 				message.setSubject("Please Verify Your Email Address");
 				message.setSentDate(new Date());
 				
-				message.setText("Hello there");
+				message.setText(sb.toString(), true);
 				 
 			}
 		};
