@@ -14,9 +14,13 @@ import org.springframework.stereotype.Service;
 //import org.thymeleaf.TemplateEngine;
 //import org.thymeleaf.context.Context;
 //import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Service
 public class EmailService {
+	
+	private TemplateEngine templateEngine;
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -24,12 +28,30 @@ public class EmailService {
 	@Value("${mail.enable}")
 	private Boolean enable;
 	
+	
+	//konstruktor
+	@Autowired
+	public EmailService(TemplateEngine templateEngine) {
+		
+		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+		
+		templateResolver.setPrefix("mail/");
+		templateResolver.setSuffix(".html");
+		templateResolver.setTemplateMode("HTML5");
+		templateResolver.setCacheable(false);
+		templateEngine.setTemplateResolver(templateResolver);
+		
+		this.templateEngine = templateEngine;
+	}
+	
+	
 	private void send(MimeMessagePreparator preparator){
 		
 		if(enable){
 			mailSender.send(preparator);
 		}
 	}
+	 
 	
 	public void sendVerificationEmail(String emailAddress){
 		
