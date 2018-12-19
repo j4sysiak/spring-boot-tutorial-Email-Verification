@@ -32,7 +32,11 @@ public class AuthController {
 	String login() {
 		return "app.login";
 	}
-	
+
+	@RequestMapping("/verifyemail")
+	String verifyemail() {
+		return "app.verifyemail";
+	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	ModelAndView register(ModelAndView modelAndView) {
@@ -53,7 +57,7 @@ public class AuthController {
 		if(!result.hasErrors()) {
 			siteUserService.register(user);
 			emailService.sendVerificationEmail(user.getEmail());
-			modelAndView.setViewName("redirect:/");
+			modelAndView.setViewName("redirect:/verifyemail");
 		}
 		return modelAndView;
 	}
