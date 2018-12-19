@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 //import org.thymeleaf.context.Context;
 //import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Service
@@ -55,19 +56,19 @@ public class EmailService {
 	
 	public void sendVerificationEmail(String emailAddress){
 		
-		StringBuilder sb = new StringBuilder();
+//		StringBuilder sb = new StringBuilder();
+//		
+//		sb.append("<HTML>");
+//		sb.append("<p>Hello there, this is <strong>HTML</strong></p>");
+//		sb.append("</HTML>");
 		
-		sb.append("<HTML>");
-		sb.append("<p>Hello there, this is <strong>HTML</strong></p>");
-		sb.append("</HTML>");
+		Context context = new Context();
 		
-//		Context context = new Context();
-//		
-//		context.setVariable("name", "Jacek");
-//		
-//		final String emailContents = templateEngine.process("verifyemail", context);
-//		
-//		System.out.println(emailContents);
+		context.setVariable("name", "Jacek");
+		
+		final String emailContents = templateEngine.process("verifyemail", context);
+		
+		System.out.println(emailContents);
 		
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			
@@ -81,7 +82,7 @@ public class EmailService {
 				message.setSubject("Please Verify Your Email Address");
 				message.setSentDate(new Date());
 				
-				message.setText(sb.toString(), true);
+				message.setText(emailContents, true);
 				 
 			}
 		};
